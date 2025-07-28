@@ -71,6 +71,11 @@ With the appropriate Flow reference:
 
 ✅ Save both as **New Versions** and then **Activate** them.
 
+### Step 6: Make the LWC available on the VoiceCall Object
+* Open the VoiceCall record page in Lightning App Builder.
+* Find voiceCallInsightViewer LWC, and drag and drop the component in a suitable location.
+* Save and Activate
+
 ---
 
 ## 🧪 Testing the Solution
