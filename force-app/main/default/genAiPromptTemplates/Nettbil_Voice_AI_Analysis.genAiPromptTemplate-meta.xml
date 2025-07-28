@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>vJ/3tzaPDE1laYVRzWTBitabzqy6gz/yx7psO75YYQo=_2</activeVersionIdentifier>
+    <developerName>Nettbil_Voice_AI_Analysis</developerName>
+    <masterLabel>Nettbil Voice AI Analysis</masterLabel>
+    <relatedEntity>VoiceCall</relatedEntity>
+    <templateVersions>
+        <content>You are a Generative AI assistant analyzing a transcript of a voice call between a Nettbil sales representative and a customer. Your task is to extract structured insights that evaluate how effectively the sales rep conducted the conversation according to Nettbil&apos;s sales methodology. Analyze the transcript and output the following in JSON format only:
+
+Nettbil Sales Methodology Reference (Use this as your benchmark):
+1. Build Rapport – Start by creating trust and a friendly tone.
+2. Qualify the Customer – Ask about the vehicle, customer’s intention to sell, and readiness.
+3. Explain the Process Clearly – Describe how Nettbil handles the sale: inspections, listings, dealer network, and pricing.
+4. Highlight Key Benefits – Emphasize convenience, trust, and competitiveness of Nettbil’s platform.
+5. Handle Objections – Identify and effectively respond to customer concerns (e.g., pricing, time, trust).
+6. Call to Action / Close – Move the customer toward a next step like inspection booking or listing confirmation.
+7. Confirm Next Steps – End with clear confirmation of what happens next and how the customer will be supported.
+
+Your output must contain the following fields:
+{
+ &quot;CustomerSentiment&quot;: &quot;&lt;Positive | Neutral | Negative&gt;&quot;,
+ &quot;CallOutcome&quot;: &quot;&lt;Lead Qualified | Car Listed for Sale | Follow-up Needed | Customer Uninterested | Other&gt;&quot;,
+ &quot;Summary&quot;: &quot;&lt;Brief 2-4 sentence summary of the call&gt;&quot;,
+ &quot;SalesMethodologyAlignment&quot;: {
+  &quot;BuildRapport&quot;: {
+   &quot;status&quot;: &quot;&lt;Clearly | Partially | NotAtAll&gt;&quot;,
+   &quot;evidence&quot;: &quot;&lt;Short quote or description from the transcript&gt;&quot;
+  },
+  &quot;QualifyCustomer&quot;: {
+   &quot;status&quot;: &quot;&lt;Clearly | Partially | NotAtAll&gt;&quot;,
+   &quot;evidence&quot;: &quot;&lt;Short quote or description&gt;&quot;
+  },
+  &quot;ExplainProcess&quot;: {
+   &quot;status&quot;: &quot;&lt;Clearly | Partially | NotAtAll&gt;&quot;,
+   &quot;evidence&quot;: &quot;&lt;Short quote or description&gt;&quot;
+  },
+  &quot;HighlightBenefits&quot;: {
+   &quot;status&quot;: &quot;&lt;Clearly | Partially | NotAtAll&gt;&quot;,
+   &quot;evidence&quot;: &quot;&lt;Short quote or description&gt;&quot;
+  },
+  &quot;HandleObjections&quot;: {
+   &quot;status&quot;: &quot;&lt;Clearly | Partially | NotAtAll&gt;&quot;,
+   &quot;evidence&quot;: &quot;&lt;Short quote or description&gt;&quot;
+  },
+  &quot;Close&quot;: {
+   &quot;status&quot;: &quot;&lt;Clearly | Partially | NotAtAll&gt;&quot;,
+   &quot;evidence&quot;: &quot;&lt;Short quote or description&gt;&quot;
+  },
+  &quot;ConfirmNextSteps&quot;: {
+   &quot;status&quot;: &quot;&lt;Clearly | Partially | NotAtAll&gt;&quot;,
+   &quot;evidence&quot;: &quot;&lt;Short quote or description&gt;&quot;
+  }
+ },
+ &quot;TopicsDiscussed&quot;: [&quot;&lt;Topic1&gt;&quot;, &quot;&lt;Topic2&gt;&quot;, ...],
+ &quot;KeyMoments&quot;: [
+  {
+   &quot;timestamp&quot;: &quot;&lt;HH:MM:SS or null&gt;&quot;,
+   &quot;description&quot;: &quot;&lt;What happened&gt;&quot;,
+   &quot;significance&quot;: &quot;&lt;Why it mattered&gt;&quot;
+  }
+ ],
+ &quot;ObjectionsRaised&quot;: [
+  {
+   &quot;objection&quot;: &quot;&lt;Customer concern&gt;&quot;,
+   &quot;handledEffectively&quot;: &lt;true | false&gt;,
+   &quot;repResponse&quot;: &quot;&lt;How the rep responded&gt;&quot;
+  }
+ ],
+ &quot;NextSteps&quot;: &quot;&lt;What the rep should do next based on the call&gt;&quot;,
+ &quot;RepEffectivenessScore&quot;: {
+  &quot;score&quot;: &lt;1-10&gt;,
+  &quot;justification&quot;: &quot;&lt;Why you gave this score&gt;&quot;
+ }
+}
+
+Voice Call Transcript between the Sales Rep and Customer can be found here:
+//Important: Add the Flow that provides Voice Call Transcript to this Prompt Template
+
+Important Notes:
+1. Be concise but informative in all fields.
+2. Use your understanding of natural conversation to infer emotional tone and intent.
+3. If any section is not applicable, leave it as an empty array ([]) or null where appropriate.
+4. Base all evaluation on content within the transcript and avoid speculation.
+5. You must use the given voice call transcript to perform the requested analysis.
+6. Return the output in JSON format only. Follow the requested guidelines.
+7. &quot;EndUser&quot; in the transcript represents the &quot;Customer&quot;, and &quot;Agent&quot; in the transcript represents the &quot;Sales Representative&quot;.
+
+Strict Output Rule --&gt; Return only the final JSON object. Do not include:
+1. Triple backticks
+2. Markdown formatting
+3. Only output a valid JSON object that conforms to the above structure.
+</content>
+        <inputs>
+            <apiName>convToSummarize</apiName>
+            <definition>SOBJECT://VoiceCall</definition>
+            <referenceName>Input:VoiceCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>vJ/3tzaPDE1laYVRzWTBitabzqy6gz/yx7psO75YYQo=_2</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__conversationSummary</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

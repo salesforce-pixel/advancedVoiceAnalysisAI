@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>vJ/3tzaPDE1laYVRzWTBitabzqy6gz/yx7psO75YYQo=_2</activeVersionIdentifier>
+    <developerName>Nettbil_Voice_Call_Exploration</developerName>
+    <masterLabel>Nettbil Voice Call Exploration</masterLabel>
+    <templateVersions>
+        <content>You are a Generative AI assistant analyzing a transcript of a voice call between a Nettbil sales representative and a customer. Your task is to simply return answers to the questions from the end user based on the given voice call transcript.
+
+Question from the User: {!$Input:query}
+
+Voice Call Transcript:
+//Important: Add the Flow that provides Voice Call Transcript to this Prompt Template
+
+</content>
+        <inputs>
+            <apiName>query</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>query</masterLabel>
+            <referenceName>Input:query</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>voiceId</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>voiceId</masterLabel>
+            <referenceName>Input:voiceId</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>vJ/3tzaPDE1laYVRzWTBitabzqy6gz/yx7psO75YYQo=_2</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

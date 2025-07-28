@@ -1,0 +1,357 @@
+<template>
+    <div class="call-analysis-container">
+        <div class="card-header">
+            <div class="header-content">
+                <lightning-icon icon-name="utility:einstein" size="medium" class="ai-icon"></lightning-icon>
+                <div class="header-text">
+                    <h2 class="slds-text-heading_medium">AI Voice Call Analysis</h2>
+                    <p class="slds-text-body_small slds-text-color_weak">Powered by Agentforce</p>
+                </div>
+                <div class="header-actions">
+                    <!-- Action Buttons for Performance Issues -->
+                    <template if:true={showActionButtons}>
+                        <div class="action-buttons">
+                            <lightning-button
+                                variant="brand"
+                                label="Schedule Meeting"
+                                icon-name="utility:event"
+                                onclick={handleScheduleMeeting}
+                                class="action-btn enablement-btn">
+                            </lightning-button>
+                            <lightning-button
+                                variant="brand-outline"
+                                label="Enroll to Enablement"
+                                icon-name="utility:education"
+                                onclick={handleEnrollToEnablement}
+                                class="action-btn enablement-btn">
+                            </lightning-button>
+                        </div>
+                    </template>
+                    
+                    <!-- Utility Actions -->
+                    <div class="utility-actions">
+                        <lightning-button-menu
+                            alternative-text="More Actions"
+                            icon-size="small"
+                            menu-alignment="right"
+                            variant="border-filled"
+                            class="utility-menu">
+                            <lightning-menu-item
+                                value="export"
+                                label="Export Insights"
+                                icon-name="utility:download"
+                                onclick={handleExportInsights}>
+                            </lightning-menu-item>
+                            <lightning-menu-item
+                                value="explore"
+                                label="Explore Conversation"
+                                icon-name="utility:search"
+                                onclick={handleExploreConversation}>
+                            </lightning-menu-item>
+                        </lightning-button-menu>
+                        <lightning-button-icon
+                            icon-name="utility:database"
+                            variant="border-filled"
+                            alternative-text="View Raw JSON Data"
+                            title="View Raw JSON Data"
+                            onclick={handleShowJson}
+                            class="json-button">
+                        </lightning-button-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <lightning-card>
+            <div class="slds-p-around_large analysis-content">
+                <template if:true={data}>
+
+                    <!-- Hero Section with Key Metrics -->
+                    <div class="hero-section slds-m-bottom_large">
+                        <div class="metrics-grid">
+                            <div class="metric-card effectiveness-card">
+                                <div class="metric-header">
+                                    <lightning-icon icon-name="utility:chart" size="small"></lightning-icon>
+                                    <span>Effectiveness Score</span>
+                                </div>
+                                <div class="score-display">
+                                    <span class="score-number">{data.RepEffectivenessScore.score}</span>
+                                    <span class="score-total">/10</span>
+                                </div>
+                                <div class="score-bar">
+                                    <div class="score-progress" style={effectivenessBarStyle}></div>
+                                </div>
+                            </div>
+
+                            <div class="metric-card sentiment-card">
+                                <div class="metric-header">
+                                    <lightning-icon icon-name="utility:sentiment_neutral" size="small"></lightning-icon>
+                                    <span>Customer Sentiment</span>
+                                </div>
+                                <div class="sentiment-badge" data-sentiment={data.CustomerSentiment}>
+                                    {data.CustomerSentiment}
+                                </div>
+                            </div>
+
+                            <div class="metric-card outcome-card">
+                                <div class="metric-header">
+                                    <lightning-icon icon-name="utility:target" size="small"></lightning-icon>
+                                    <span>Call Outcome</span>
+                                </div>
+                                <div class="outcome-badge">
+                                    {data.CallOutcome}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Summary Section -->
+                    <div class="summary-section slds-m-bottom_large">
+                        <div class="section-header">
+                            <lightning-icon icon-name="utility:text" size="small"></lightning-icon>
+                            <h3 class="slds-text-heading_small">Call Summary</h3>
+                        </div>
+                        <div class="summary-content">
+                            <p class="summary-text">{data.Summary}</p>
+                            <div class="summary-meta">
+                                <span class="effectiveness-justification">{data.RepEffectivenessScore.justification}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sales Methodology Section -->
+                    <div class="methodology-section slds-m-bottom_large">
+                        <div class="section-header">
+                            <lightning-icon icon-name="utility:steps" size="small"></lightning-icon>
+                            <h3 class="slds-text-heading_small">Sales Methodology Performance</h3>
+                        </div>
+                        <div class="methodology-grid">
+                            <template for:each={methodologyRows} for:item="step">
+                                <div key={step.step} class="methodology-card" data-status={step.status}>
+                                    <div class="methodology-header">
+                                        <div class="step-indicator" data-status={step.status}>
+                                            <lightning-icon icon-name={step.iconName} size="x-small"></lightning-icon>
+                                        </div>
+                                        <h4 class="step-title">{step.step}</h4>
+                                        <div class="status-badge" data-status={step.status}>
+                                            {step.statusLabel}
+                                        </div>
+                                    </div>
+                                    <p class="step-evidence">{step.evidence}</p>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Topics Grid -->
+                    <template if:true={data.TopicsDiscussed}>
+                        <div class="topics-section slds-m-bottom_large">
+                            <div class="section-header">
+                                <lightning-icon icon-name="utility:topic" size="small"></lightning-icon>
+                                <h3 class="slds-text-heading_small">Discussion Topics</h3>
+                            </div>
+                            <div class="topics-grid">
+                                <template for:each={data.TopicsDiscussed} for:item="topic">
+                                    <div key={topic} class="topic-pill">
+                                        <lightning-icon icon-name="utility:comments" size="xx-small"></lightning-icon>
+                                        <span>{topic}</span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Interactive Sections -->
+                    <div class="interactive-sections">
+                        <!-- Key Moments Timeline -->
+                        <template if:true={data.KeyMoments}>
+                            <div class="timeline-section slds-m-bottom_large">
+                                <div class="section-header">
+                                    <lightning-icon icon-name="utility:clock" size="small"></lightning-icon>
+                                    <h3 class="slds-text-heading_small">Key Moments Timeline</h3>
+                                </div>
+                                <div class="timeline-container">
+                                    <template for:each={data.KeyMoments} for:item="moment">
+                                        <div key={moment.timestamp} class="timeline-item">
+                                            <div class="timeline-marker"></div>
+                                            <div class="timeline-content">
+                                                <div class="moment-header">
+                                                    <span class="moment-time">{moment.timestamp}</span>
+                                                    <lightning-icon icon-name="utility:event" size="xx-small"></lightning-icon>
+                                                </div>
+                                                <h4 class="moment-description">{moment.description}</h4>
+                                                <p class="moment-significance">{moment.significance}</p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Objections Handling -->
+                        <template if:true={data.ObjectionsRaised}>
+                            <div class="objections-section">
+                                <div class="section-header">
+                                    <lightning-icon icon-name="utility:question_mark" size="small"></lightning-icon>
+                                    <h3 class="slds-text-heading_small">Objections & Responses</h3>
+                                </div>
+                                <div class="objections-container">
+                                    <template for:each={data.ObjectionsRaised} for:item="objection">
+                                        <div key={objection.objection} class="objection-card" data-handled={objection.handledEffectively}>
+                                            <div class="objection-header">
+                                                <div class="objection-icon">
+                                                    <lightning-icon icon-name={objection.iconName} size="small"></lightning-icon>
+                                                </div>
+                                                <div class="objection-content">
+                                                    <h4 class="objection-title">{objection.objection}</h4>
+                                                    <div class="handling-status" data-handled={objection.handledEffectively}>
+                                                        <lightning-icon icon-name={objection.statusIcon} size="xx-small"></lightning-icon>
+                                                        <span>{objection.handlingLabel}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="response-content">
+                                                <p class="rep-response">{objection.repResponse}</p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                </template>
+                
+                <template if:false={data}>
+                    <div class="empty-state">
+                        <lightning-icon icon-name="utility:warning" size="large" class="empty-icon"></lightning-icon>
+                        <h3 class="slds-text-heading_small">No Analysis Available</h3>
+                        <p class="slds-text-body_regular slds-text-color_weak">
+                            AI analysis data is not available for this call.
+                        </p>
+                    </div>
+                </template>
+            </div>
+        </lightning-card>
+    </div>
+
+    <!-- JSON Modal -->
+    <template if:true={showJsonModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open json-modal">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning-button-icon
+                        icon-name="utility:close"
+                        onclick={handleCloseJsonModal}
+                        alternative-text="Close"
+                        variant="bare-inverse"
+                        class="slds-modal__close">
+                    </lightning-button-icon>
+                    <h2 class="slds-modal__title slds-hyphenate">Raw Analysis Data</h2>
+                    <p class="slds-m-top_x-small">Backend JSON data used to generate this analysis</p>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium json-modal-content">
+                    <div class="json-toolbar">
+                        <lightning-button
+                            variant="neutral"
+                            label="Copy JSON"
+                            icon-name="utility:copy"
+                            onclick={handleCopyJson}
+                            size="small">
+                        </lightning-button>
+                    </div>
+                    <div class="json-container">
+                        <pre class="json-content">{formattedJsonData}</pre>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        variant="neutral"
+                        label="Close"
+                        onclick={handleCloseJsonModal}>
+                    </lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Explore Conversation Modal -->
+    <template if:true={showExploreModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open explore-modal">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning-button-icon
+                        icon-name="utility:close"
+                        onclick={handleCloseExploreModal}
+                        alternative-text="Close"
+                        variant="bare-inverse"
+                        class="slds-modal__close">
+                    </lightning-button-icon>
+                    <h2 class="slds-modal__title slds-hyphenate">Explore Conversation</h2>
+                    <p class="slds-m-top_x-small">Ask questions about this voice call to get AI-powered insights</p>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium explore-modal-content">
+                    <div class="explore-form">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="question-input">
+                                <abbr class="slds-required" title="required">*</abbr>
+                                Question
+                            </label>
+                            <div class="slds-form-element__control">
+                                <lightning-textarea
+                                    id="question-input"
+                                    name="question"
+                                    placeholder="What would you like to know about this conversation? For example: 'What were the main pain points discussed?' or 'How well did the rep handle objections?'"
+                                    value={userQuestion}
+                                    onchange={handleQuestionChange}
+                                    rows="3"
+                                    max-length="1000"
+                                    class="question-input">
+                                </lightning-textarea>
+                            </div>
+                        </div>
+                        
+                        <template if:true={exploreAnswer}>
+                            <div class="answer-section">
+                                <div class="answer-header">
+                                    <lightning-icon icon-name="utility:einstein" size="small"></lightning-icon>
+                                    <h3 class="slds-text-heading_small">AI Response</h3>
+                                </div>
+                                <div class="answer-content">
+                                    <p class="answer-text">{exploreAnswer}</p>
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <template if:true={isExploring}>
+                            <div class="loading-section">
+                                <lightning-spinner
+                                    alternative-text="Analyzing conversation..."
+                                    size="medium"
+                                    class="explore-spinner">
+                                </lightning-spinner>
+                                <p class="loading-text">AI is analyzing the conversation...</p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        variant="neutral"
+                        label="Close"
+                        onclick={handleCloseExploreModal}>
+                    </lightning-button>
+                    <lightning-button
+                        variant="brand"
+                        label="Submit"
+                        onclick={handleSubmitQuestion}
+                        disabled={isSubmitDisabled}
+                        class="submit-btn">
+                    </lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
