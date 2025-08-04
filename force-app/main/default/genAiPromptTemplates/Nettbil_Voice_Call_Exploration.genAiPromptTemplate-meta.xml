@@ -10,7 +10,6 @@ Question from the User: {!$Input:query}
 
 Voice Call Transcript:
 //Important: Add the Flow that provides Voice Call Transcript to this Prompt Template
-
 </content>
         <inputs>
             <apiName>query</apiName>

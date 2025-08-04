@@ -27,7 +27,7 @@
     </types>
         <types> 
         <members>GenAI_Voice_Analysis_Flow</members> 
-        <members>Nettbil_Query_Voice_Transcript</members> 
+        <members>Query_Voice_Transcript_v2</members> 
         <members>Query_Voice_Call_Transcript</members> 
         <name>Flow</name>
     </types>

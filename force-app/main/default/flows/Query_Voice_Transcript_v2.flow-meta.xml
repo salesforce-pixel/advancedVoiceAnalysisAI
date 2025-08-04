@@ -39,8 +39,8 @@
         </assignmentItems>
     </assignments>
     <environments>Default</environments>
-    <interviewLabel>Nettbil Query Voice Transcript {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Nettbil Query Voice Transcript</label>
+    <interviewLabel>Query Voice Transcript v2 {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Query Voice Transcript v2</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

@@ -53,20 +53,20 @@ sf project deploy start -x manifest/package.xml -o targetOrg -l NoTestRun
 
 ### Step 5: Configure Prompt Templates
 
-After successful deployment, open the following two prompt templates and replace the placeholder comment:
+After successful deployment, open the following two Prompt Templates (check out the genAiPromptTemplates folder in the codebase) and replace the placeholder comment in both these templates:
 
 > `//Important: Add the Flow that provides Voice Call Transcript to this Prompt Template`
 
 With the appropriate Flow reference:
 
-1. **Nettbil Voice Call Exploration**
+1. ** XXX Voice Call Exploration**
    ```text
    {!$Flow:Query_Voice_Call_Transcript.Prompt}
    ```
 
-2. **Nettbil Voice AI Analysis**
+2. ** XXX Voice AI Analysis**
    ```text
-   {!$Flow:Nettbil_Query_Voice_Transcript.Prompt}
+   {!$Flow:Query_Voice_Transcript_v2.Prompt}
    ```
 
 ✅ Save both as **New Versions** and then **Activate** them.
