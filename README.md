@@ -104,7 +104,7 @@ This is a real solution, but you can test the solution manually by pasting the f
     },
     "HighlightBenefits": {
       "status": "Clearly",
-      "evidence": "Rep emphasized that Nettbil handles everything, including buyer communication and payment."
+      "evidence": "Rep emphasized that our company handles everything, including buyer communication and payment."
     },
     "HandleObjections": {
       "status": "Partially",
@@ -134,7 +134,7 @@ This is a real solution, but you can test the solution manually by pasting the f
     },
     {
       "timestamp": "00:02:15",
-      "description": "Rep explained how Nettbil ensures price transparency.",
+      "description": "Rep explained how our company ensures price transparency.",
       "significance": "Helped build trust and removed friction around pricing concerns."
     },
     {
@@ -162,7 +162,7 @@ This is a real solution, but you can test the solution manually by pasting the f
     {
       "objection": "How can I be sure the buyers are legitimate?",
       "handledEffectively": true,
-      "repResponse": "All buyers go through our verification system and payments are secured by Nettbil."
+      "repResponse": "All buyers go through our verification system and payments are secured by our company."
     },
     {
       "objection": "Is my personal data safe when I upload my documents?",
