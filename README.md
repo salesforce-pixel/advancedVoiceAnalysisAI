@@ -42,6 +42,7 @@ Make sure the following features are enabled:
 - **Einstein for Sales**
 - **Prompt Builder**
 - **Service Cloud Voice**
+- **Turn ON "Einstein Work Summaries" in Setup**
 
 ### Step 4: Deploy the Project to Salesforce
 
